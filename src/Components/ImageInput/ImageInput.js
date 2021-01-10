@@ -3,13 +3,13 @@ import React from 'react';
 const ImageInput = ({ onInputChange, onButtonSubmit }) => {
     return (
         <div className="flex flex-column items-center">
-            <p className="f3 near-white tc">
+            <p className="f3 white tc">
                 Welcome to Ocean AI! Insert an image and the Clarifai AI will detect if a face is in the image.
                 First, get the url of the image. Press <strong>detect</strong> and viola! 
             </p>
-            <p className="near-white tc">
+            <p className="white tc">
                 <em>You get 10 free tries daily!</em><br/>
-                Number of tries left: 3
+                Number of tries left: 10
             </p>
             <div className="w-80">
                 <input 

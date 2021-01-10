@@ -21,9 +21,8 @@ const Navbar = ({ isSignedIn, onRouteChange }) => {
             <div className="dtc v-mid mid-gray link dim w-25">
                 <img 
                 src={`${process.env.PUBLIC_URL}/logos/logo.png`} 
-                className="dib w2 h2 br-100" 
+                className="dib w3 h3 br-100"
                 alt="Ocean AI"/>
-                <p id="brand-text" className="dib white">Ocean AI</p>
             </div>
             <div className="dtc v-mid w-75 tr">
                 <p onClick={() => onRouteChange('signup')} className="link dim near-white f6 f5-ns dib mr3 mr4-ns pointer">Sign up</p>

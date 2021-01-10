@@ -56,6 +56,7 @@ class Signup extends Component {
                             type="text"
                             name="name"
                             id="name"
+                            required
                             onChange={this.onNameChange}
                             />
                         </div>
@@ -66,6 +67,7 @@ class Signup extends Component {
                             type="email"
                             name="email-address"
                             id="email-address"
+                            required
                             onChange={this.onEmailChange}
                             />
                         </div>
@@ -76,14 +78,15 @@ class Signup extends Component {
                             type="password"
                             name="password"
                             id="password"
+                            required
                             onChange={this.onPasswordChange}
                             />
                         </div>
                         </fieldset>
-                        <div className="">
+                        <div className="flex justify-center">
                         <input
                             onClick={this.onSubmitSignup}
-                            className="b ph3 pv2 input-reset ba near-white b--black bg-transparent grow pointer f6 dib"
+                            className="b ph3 pv2 input-reset ba near-white br2 b--green bg-green grow pointer f6 dib"
                             type="submit"
                             value="Signup"
                         />

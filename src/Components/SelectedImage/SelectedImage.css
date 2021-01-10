@@ -1,11 +1,13 @@
 #image-container {
+    margin: 0 auto;
+    margin-top: 1em;
     max-width: 500px;
     position: relative; 
 }
 
 .bounding-box {
     position: absolute;
-    box-shadow: 0 0 0 3px #149df2 inset;
+    box-shadow: 0 0 0 3px #44EB1E inset;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

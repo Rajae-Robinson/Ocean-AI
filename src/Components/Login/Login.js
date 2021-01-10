@@ -51,6 +51,7 @@ class Login extends Component {
                             type="email"
                             name="email-address"
                             id="email-address"
+                            required
                             onChange={this.onEmailChange}
                             />
                         </div>
@@ -61,20 +62,21 @@ class Login extends Component {
                             type="password"
                             name="password"
                             id="password"
+                            required
                             onChange={this.onPasswordChange}
                             />
                         </div>
                         </fieldset>
-                        <div className="">
+                        <div className="flex justify-center">
                         <input
                             onClick={this.onSubmitLogin}
-                            className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib near-white"
+                            className="b ph3 pv2 input-reset ba br2 b--green bg-green grow pointer f6 dib near-white"
                             type="submit"
                             value="Login"
                         />
                         </div>
-                        <div className="lh-copy mt3">
-                        <p  onClick={() => onRouteChange('signup')} className="f6 link dim black db pointer near-white">Signup</p>
+                        <div className="lh-copy flex justify-center">
+                            <p  onClick={() => onRouteChange('signup')} className="f6 link dim black db pointer near-white">Signup</p>
                         </div>
                     </div>
                 </main>
