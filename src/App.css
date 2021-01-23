@@ -5,9 +5,11 @@
   min-height: 100vh; 
 }
 
+header { height: 100vh; }
+
 body {
   font-family: 'Lato', sans-serif;
-  background: linear-gradient(to left,rgb(35, 38, 139), rgb(158, 190, 250));
+  background: linear-gradient(to left,rgb(61, 67, 228), rgb(102, 138, 204));
 }
 
 .particles {
@@ -17,4 +19,20 @@ body {
   bottom: 0;
   left: 0;
   z-index: -1;
+}
+
+.hero-bg {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+#btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 380px) {
+  #btn-container {
+    flex-direction: column;
+    align-items: center;
+  }
 }

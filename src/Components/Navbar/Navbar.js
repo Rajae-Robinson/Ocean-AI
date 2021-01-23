@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import './Navbar.css';
 
-const Navbar = ({ isSignedIn, onRouteChange }) => {
+const Navbar = ({ isSignedIn }) => {
     return (
         (isSignedIn) ?
             <nav className="dt w-100 border-box pa3 ph5-ns shadow-1">
@@ -17,7 +17,7 @@ const Navbar = ({ isSignedIn, onRouteChange }) => {
                 </Link>
                 <div className="dtc v-mid w-75 tr">
                     <Link to="/">
-                    <p onClick={() => onRouteChange('logout')} className="link dim near-white f6 f5-ns dib mr3 mr4-ns pointer">Logout</p>
+                    <p className="link dim near-white f6 f5-ns dib mr3 mr4-ns pointer">Logout</p>
                     </Link>
                 </div>
             </nav>
@@ -33,10 +33,10 @@ const Navbar = ({ isSignedIn, onRouteChange }) => {
             </Link>
             <div className="dtc v-mid w-75 tr">
                 <Link to="signup">
-                    <p onClick={() => onRouteChange('signup')} className="link dim near-white f6 f5-ns dib mr3 mr4-ns pointer">Sign up</p>
+                    <p className="link dim near-white f6 f5-ns dib mr3 mr4-ns pointer">Sign up</p>
                 </Link>
                 <Link to="login">
-                    <p onClick={() => onRouteChange('login')} className="link dim near-white f6 f5-ns dib mr3 mr4-ns pointer">Login</p>
+                    <p className="link dim near-white f6 f5-ns dib mr3 mr4-ns pointer">Login</p>
                 </Link>
             </div>
         </nav>

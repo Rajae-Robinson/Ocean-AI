@@ -55,13 +55,8 @@ class App extends Component {
     this.setState({imageUrl: event.target.value})
   }
 
-  onRouteChange = (route) => {
-    if (route === 'logout') {
-      this.setState({isSignedIn: false})
-    } else if (route === 'home') {
-      this.setState({isSignedIn: true})
-    }
-    this.setState({route: route});
+  clearInput = () => {
+    this.setState({imageUrl: ''})
   }
 
   calculateFaceLocation = (data) => {
@@ -127,11 +122,11 @@ class App extends Component {
   }
 
   render() {
-    const { box, imageUrl, route, isSignedIn, user} = this.state
+    const { box, imageUrl, isSignedIn, user} = this.state
     return (
       <Router>
         <div className="App">
-          <Navbar isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+          <Navbar isSignedIn={isSignedIn}/>
           <Particles
           className="particles" 
           params={particlesOptions} />
@@ -151,8 +146,10 @@ class App extends Component {
             </Route>
             <Route path="/user/:userId">
               <UserProfile 
+              name={user.name}
               tries={user.tries}
               onInputChange={this.onInputChange}
+              clearInput={this.clearInput}
               onImageSubmit={this.onImageSubmit}
               imageUrl={imageUrl} 
               box={box}
@@ -167,27 +164,3 @@ class App extends Component {
 }
 
 export default App;
-
-{/* <Navbar isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
-          <Particles
-          className="particles" 
-          params={particlesOptions} />
-          {
-            route === "home" 
-            ?
-            <div>
-              <ImageInput 
-              tries={user.tries}
-              onInputChange={this.onInputChange}
-              onButtonSubmit={this.onButtonSubmit}
-              />
-              <SelectedImage imageUrl={imageUrl} box={box}/>
-            </div>
-            :
-            (
-              route === "signup"
-              ? <Signup loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
-              :
-              <Login loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
-            )
-          }   */}

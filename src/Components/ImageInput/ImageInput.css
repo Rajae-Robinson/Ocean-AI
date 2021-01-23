@@ -1,0 +1,44 @@
+.detect-btn {
+    background-color: rgb(35, 38, 139);
+    border: 1px solid rgb(35, 38, 139);
+    cursor: pointer;
+}
+
+#image-input-container { position: relative; }
+
+.close {
+    position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    left: 66.5%;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: 0;
+    opacity: 0.3;
+}
+
+.close:hover { opacity: 1; }
+.close:focus { outline: none; }
+
+.close:before, .close:after {
+    position: absolute;
+    top: 0;
+    left: 8px;
+    content: ' ';
+    height: 20px;
+    width: 2px;
+    background-color: #333;
+}
+
+.close:before {
+    transform: rotate(45deg);
+}
+
+.close:after {
+    transform: rotate(-45deg);
+}
+
+@media screen and (max-width: 535px) {
+    .close { left: 60%; }
+}
