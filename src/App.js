@@ -30,10 +30,23 @@ class App extends Component {
     this.state = {
       // https://www.byrdie.com/thmb/pr2U7ghfvv3Sz8zJCHWFLT2K55E=/735x0/cdn.cliqueinc.com__cache__posts__274058__face-masks-for-pores-274058-1543791152268-main.700x0c-270964ab60624c5ca853057c0c151091-d3174bb99f944fc492f874393002bab7.jpg
       imageUrl: '',
-      route: 'home',
+      route: 'login',
       isSignedIn: false,
-      box: {}
+      box: {},
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        tries: 10,
+        joined: ''
+      }
     }
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3000')
+    .then(response => response.json())
+    .then(console.log)
   }
 
   onInputChange = (event) => {
@@ -62,6 +75,18 @@ class App extends Component {
     }
   }
 
+  loadUser = (data) => {
+    this.setState({
+      user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        tries: data.tries,
+        joined: data.joined
+      }
+    })
+  }
+
   displayFaceBox = (box) => {
     this.setState({box: box});
   }
@@ -81,12 +106,25 @@ class App extends Component {
         Clarifai.FACE_DETECT_MODEL,
         this.state.imageUrl)
       .then(response => {
+        if (response) {
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+          .then(response => response.json())
+          .then(count => {
+            this.setState(Object.assign(this.state.user, { tries: count }))
+          })
+        }
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
   }
 
   render() {
-    const { box, imageUrl, route, isSignedIn} = this.state
+    const { box, imageUrl, route, isSignedIn, user} = this.state
     return (
       <div className="App">
         <Navbar isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
@@ -98,6 +136,7 @@ class App extends Component {
           ?
           <div>
             <ImageInput 
+            tries={user.tries}
             onInputChange={this.onInputChange}
             onButtonSubmit={this.onButtonSubmit}
             />
@@ -106,9 +145,9 @@ class App extends Component {
           :
           (
             route === "signup"
-            ? <Signup onRouteChange={this.onRouteChange}/>
+            ? <Signup loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
             :
-            <Login onRouteChange={this.onRouteChange}/>
+            <Login loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
           )
         }  
       </div>
