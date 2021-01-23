@@ -1,10 +1,11 @@
 import React from 'react';
+import './ImageInput.css';
 
-const ImageInput = ({ onInputChange, onButtonSubmit, tries }) => {
+const ImageInput = ({ onInputChange, onImageSubmit, tries }) => {
     return (
         <div>
             <p className="f3 white tc">
-                Welcome to Ocean AI! Insert an image and the Clarifai AI will detect if a face is in the image.
+                Welcome, |username here|.Insert an image and the Clarifai AI will detect if a face is in the image.
                 First, get the url of the image. Press <strong>detect</strong> and viola! 
             </p>
             {
@@ -26,7 +27,7 @@ const ImageInput = ({ onInputChange, onButtonSubmit, tries }) => {
                         className='w-30 grow f4 link ph3 pv2 dib white'
                         style={{backgroundColor: "rgb(35, 38, 139)", border: "1px solid rgb(35, 38, 139)",
                         cursor: "pointer"}}
-                        onClick={onButtonSubmit}
+                        onClick={onImageSubmit}
                         >Detect</button>
                     </div>
                 </div>

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import Clarifai from 'clarifai'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Clarifai from 'clarifai';
 import Navbar from './Components/Navbar/Navbar';
-import ImageInput from './Components/ImageInput/ImageInput';
-import SelectedImage from './Components/SelectedImage/SelectedImage';
+import Home from './Components/Home/Home';
 import Signup from './Components/Signup/Signup';
 import Login from './Components/Login/Login';
+import UserProfile from './Components/UserProfile/UserProfile';
+import PageNotFound from './Components/PageNotFound/PageNotFound';
 import Particles from 'react-particles-js';
 import './App.css';
 import 'tachyons';
@@ -30,7 +32,7 @@ class App extends Component {
     this.state = {
       // https://www.byrdie.com/thmb/pr2U7ghfvv3Sz8zJCHWFLT2K55E=/735x0/cdn.cliqueinc.com__cache__posts__274058__face-masks-for-pores-274058-1543791152268-main.700x0c-270964ab60624c5ca853057c0c151091-d3174bb99f944fc492f874393002bab7.jpg
       imageUrl: '',
-      route: 'login',
+      route: '/',
       isSignedIn: false,
       box: {},
       user: {
@@ -91,7 +93,7 @@ class App extends Component {
     this.setState({box: box});
   }
 
-  onButtonSubmit = () => {
+  onImageSubmit = () => {
     app.models
       .predict(
         // HEADS UP! Sometimes the Clarifai Models can be down or not working as they are constantly getting updated.
@@ -106,6 +108,7 @@ class App extends Component {
         Clarifai.FACE_DETECT_MODEL,
         this.state.imageUrl)
       .then(response => {
+        // decreasing tries count
         if (response) {
           fetch('http://localhost:3000/image', {
             method: 'put',
@@ -126,33 +129,65 @@ class App extends Component {
   render() {
     const { box, imageUrl, route, isSignedIn, user} = this.state
     return (
-      <div className="App">
-        <Navbar isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
-        <Particles
-        className="particles" 
-        params={particlesOptions} />
-        {
-          route === "home" 
-          ?
-          <div>
-            <ImageInput 
-            tries={user.tries}
-            onInputChange={this.onInputChange}
-            onButtonSubmit={this.onButtonSubmit}
-            />
-            <SelectedImage imageUrl={imageUrl} box={box}/>
-          </div>
-          :
-          (
-            route === "signup"
-            ? <Signup loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
-            :
-            <Login loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
-          )
-        }  
-      </div>
+      <Router>
+        <div className="App">
+          <Navbar isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+          <Particles
+          className="particles" 
+          params={particlesOptions} />
+          <Switch>
+            <Route exact path="/">
+              <Home 
+              tries={user.tries}
+              onInputChange={this.onInputChange}
+              onImageSubmit={this.onImageSubmit}
+              />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/signup">
+              <Signup />
+            </Route>
+            <Route path="/user/:userId">
+              <UserProfile 
+              tries={user.tries}
+              onInputChange={this.onInputChange}
+              onImageSubmit={this.onImageSubmit}
+              imageUrl={imageUrl} 
+              box={box}
+              />
+            </Route>
+            <Route component={PageNotFound}/>
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
 
 export default App;
+
+{/* <Navbar isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+          <Particles
+          className="particles" 
+          params={particlesOptions} />
+          {
+            route === "home" 
+            ?
+            <div>
+              <ImageInput 
+              tries={user.tries}
+              onInputChange={this.onInputChange}
+              onButtonSubmit={this.onButtonSubmit}
+              />
+              <SelectedImage imageUrl={imageUrl} box={box}/>
+            </div>
+            :
+            (
+              route === "signup"
+              ? <Signup loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+              :
+              <Login loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+            )
+          }   */}
