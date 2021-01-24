@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import auth from '../../auth';
 class Login extends Component {
     constructor(props) {
         super(props)
@@ -30,7 +31,9 @@ class Login extends Component {
         .then(user => {
             if (user.id) {
                 this.props.loadUser(user)
-                {<Link to="/"></Link>}
+                auth.login(() => {
+                    this.props.history.push(`user/${user.id}`)
+                })
             }
         })
     }

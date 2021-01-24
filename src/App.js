@@ -30,10 +30,10 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
+      // Example faces
+      // https://www.thestatesman.com/wp-content/uploads/2017/08/1493458748-beauty-face-517.jpg
       // https://www.byrdie.com/thmb/pr2U7ghfvv3Sz8zJCHWFLT2K55E=/735x0/cdn.cliqueinc.com__cache__posts__274058__face-masks-for-pores-274058-1543791152268-main.700x0c-270964ab60624c5ca853057c0c151091-d3174bb99f944fc492f874393002bab7.jpg
       imageUrl: '',
-      route: '/',
-      isSignedIn: false,
       box: {},
       user: {
         id: '',
@@ -52,6 +52,7 @@ class App extends Component {
   }
 
   onInputChange = (event) => {
+    console.log("changfe")
     this.setState({imageUrl: event.target.value})
   }
 
@@ -73,6 +74,7 @@ class App extends Component {
   }
 
   loadUser = (data) => {
+    // Update user info in state
     this.setState({
       user: {
         id: data.id,
@@ -105,7 +107,7 @@ class App extends Component {
       .then(response => {
         // decreasing tries count
         if (response) {
-          fetch('http://localhost:3000/image', {
+          fetch(`http://localhost:3000/user/${this.state.user.id}`, {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -122,30 +124,39 @@ class App extends Component {
   }
 
   render() {
-    const { box, imageUrl, isSignedIn, user} = this.state
+    const { box, imageUrl, user} = this.state
     return (
       <Router>
         <div className="App">
-          <Navbar isSignedIn={isSignedIn}/>
+          <Navbar/>
           <Particles
           className="particles" 
           params={particlesOptions} />
           <Switch>
             <Route exact path="/">
-              <Home 
-              tries={user.tries}
-              onInputChange={this.onInputChange}
-              onImageSubmit={this.onImageSubmit}
-              />
+              <Home/>
             </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/user/:userId">
-              <UserProfile 
+            <Route
+              exact 
+              path="/login"
+              render={props => (
+                <Login {...props} loadUser={this.loadUser}/>
+              )}
+            />
+            <Route
+              exact 
+              path="/signup"
+              render={props => (
+                <Signup {...props} loadUser={this.loadUser}/>
+              )}
+            />
+            {/* For best practice the route below should be a protected route */}
+            <Route 
+            exact 
+            path="/user/:id"
+            render={props => (
+              <UserProfile
+              {...props} 
               name={user.name}
               tries={user.tries}
               onInputChange={this.onInputChange}
@@ -154,7 +165,8 @@ class App extends Component {
               imageUrl={imageUrl} 
               box={box}
               />
-            </Route>
+            )}
+            />
             <Route component={PageNotFound}/>
           </Switch>
         </div>
