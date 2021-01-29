@@ -21,6 +21,7 @@ const Navbar = (props) => {
                     onClick={() => {
                         auth.logout(() => {
                             props.history.push("/")
+                            props.clearInput()
                         })
                     }}
                     style={{backgroundColor: "transparent", border: "0"}}

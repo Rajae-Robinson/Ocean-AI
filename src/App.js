@@ -11,6 +11,8 @@ import Particles from 'react-particles-js';
 import './App.css';
 import 'tachyons';
 
+// API keys are not secured on frontend. This project uses a
+// free API key so it is unharmful
 const app = new Clarifai.App({
   apiKey: '15aba1ae988a4020a1999ff88f363a32'
 });
@@ -30,16 +32,13 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      // Example faces
-      // https://www.thestatesman.com/wp-content/uploads/2017/08/1493458748-beauty-face-517.jpg
-      // https://www.byrdie.com/thmb/pr2U7ghfvv3Sz8zJCHWFLT2K55E=/735x0/cdn.cliqueinc.com__cache__posts__274058__face-masks-for-pores-274058-1543791152268-main.700x0c-270964ab60624c5ca853057c0c151091-d3174bb99f944fc492f874393002bab7.jpg
       imageUrl: '',
       box: {},
       user: {
         id: '',
         name: '',
         email: '',
-        tries: 10,
+        tries: 0,
         joined: ''
       }
     }
@@ -52,7 +51,6 @@ class App extends Component {
   }
 
   onInputChange = (event) => {
-    console.log("changfe")
     this.setState({imageUrl: event.target.value})
   }
 
@@ -118,6 +116,7 @@ class App extends Component {
           .then(count => {
             this.setState(Object.assign(this.state.user, { tries: count }))
           })
+          .catch(console.log)
         }
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
@@ -128,7 +127,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <Navbar/>
+          <Navbar clearInput={this.clearInput}/>
           <Particles
           className="particles" 
           params={particlesOptions} />
